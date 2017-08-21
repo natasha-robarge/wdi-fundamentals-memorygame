@@ -14,11 +14,32 @@ var cardsInPlay = [];
     }
   }
   function flipCard(cardId) {
-    checkForMatch();
-    console.log("User flipped " + cards[cardId].rank);
-      cardsInPlay.push(cards[cardId].rank);
-      console.log(cards[cardId].suit);
-      console.log(cards[cardId].cardImage);
+    var cardId = this.getAttribute("data-id");
+	  var card = cards[cardId];
+	    this.setAttribute("src", card.cardImage);
+	    this.setAttribute("class", "clicked");
+	    console.log(this);
+	      cardsInPlay.push(card.rank);
+	        if (cardsInPlay.length === 2) {
+		        checkForMatch();
+	        }
   }
-console.log(flipCard(0));
-console.log(flipCard(2));
+  function createBoard() {
+    for(var i = 0; i < cards.length; i++) {
+      var cardElement = document.createElement("img");
+		      cardElement.setAttribute("src", "images/back.png");
+		      cardElement.setAttribute("data-id", i)
+		      cardElement.addEventListener("click", flipCard);
+		  var board = document.getElementById("game-board");
+		    board.appendChild(cardElement);
+    }
+  }
+  var resetGame = function(){
+	score = 0;
+	document.getElementById("score").textContent = score;
+	result.textContent = "Ready for a new game??";
+	flipBack();
+};
+
+createBoard();
+document.querySelector("button").addEventListener("click", resetGame);
